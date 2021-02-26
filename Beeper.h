@@ -21,7 +21,7 @@
 #ifndef Beeper_h
 #define Beeper_h
 
-#include "Arduino.h"
+#include <Arduino.h>
 
 class Beeper
 {
@@ -33,3 +33,4 @@ class Beeper
 };
 
 #endif
+

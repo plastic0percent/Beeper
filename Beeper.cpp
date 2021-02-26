@@ -19,7 +19,7 @@
  */
 
 #include "Beeper.h"
-#include "Arduino.h"
+#include <Arduino.h>
 
 Beeper::Beeper(int pin)
 {
@@ -104,3 +104,4 @@ void Beeper::beep(unsigned long freq, float dur)
         }
     }
 }
+
