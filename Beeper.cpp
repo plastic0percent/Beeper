@@ -20,6 +20,7 @@
 
 #include "Beeper.h"
 #include <Arduino.h>
+#include <Servo.h>
 
 Beeper::Beeper(int pin)
 {
@@ -27,12 +28,10 @@ Beeper::Beeper(int pin)
     _pin = pin;
 }
 
-/* Drive a QYF-068 beeper.
-    @param pin Output pin of the beeper.
+/* Get a proper delay from thr frequency.
     @param freq The frequency to create.
-    @param dur Duration in seconds.
-*/
-void Beeper::beep(unsigned long freq, float dur)
+ */
+double Beeper::get_delay(unsigned long freq)
 {
     // Beeper data (old):
     // delay/ms | frequency/Hz
@@ -76,9 +75,18 @@ void Beeper::beep(unsigned long freq, float dur)
     // Beeper curve from regression 3 (y~kx^-1+b):
     //   v=470164/d+108.97, d=470164/(v-108.97)
 
+    return 495139 / freq - 2.56364;
+}
+
+/* Drive a QYF-068 beeper, blocking.
+    @param freq The frequency to create.
+    @param dur Duration in seconds.
+*/
+void Beeper::beep(unsigned long freq, float dur)
+{
     unsigned long itersSoFar;
     unsigned long finalIter;
-    double avgDelay = 495139 / freq - 2.56364;
+    double avgDelay = get_delay(freq);
 
     if (avgDelay >= 3000.0)
     {
@@ -105,3 +113,12 @@ void Beeper::beep(unsigned long freq, float dur)
     }
 }
 
+/* Drive a QYF-068 beeper without a predefined length, non-blocking.
+    @param freq The frequency to create.
+*/
+void Beeper::beep_forever(unsigned long freq)
+{
+    double avgDelay = get_delay(freq);
+    pwm.attach(_pin);
+    pwm.writeMicroseconds(round(avgDelay));
+}
