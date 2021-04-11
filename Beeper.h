@@ -29,8 +29,8 @@ class Beeper
     Beeper(int pin);
     // Beep for DUR seconds long
     void beep(unsigned long freq, float dur);
+    static double get_delay(unsigned long freq);
   private:
-    double get_delay(unsigned long freq);
     int _pin;
 };
 
