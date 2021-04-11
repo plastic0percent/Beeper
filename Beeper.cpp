@@ -20,7 +20,6 @@
 
 #include "Beeper.h"
 #include <Arduino.h>
-#include <Servo.h>
 
 Beeper::Beeper(int pin)
 {
@@ -111,14 +110,4 @@ void Beeper::beep(unsigned long freq, float dur)
             delayMicroseconds((unsigned int)avgDelay + 1);
         }
     }
-}
-
-/* Drive a QYF-068 beeper without a predefined length, non-blocking.
-    @param freq The frequency to create.
-*/
-void Beeper::beep_forever(unsigned long freq)
-{
-    double avgDelay = get_delay(freq);
-    pwm.attach(_pin);
-    pwm.writeMicroseconds(round(avgDelay));
 }

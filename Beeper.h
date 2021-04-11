@@ -22,7 +22,6 @@
 #define Beeper_h
 
 #include <Arduino.h>
-#include <Servo.h>
 
 class Beeper
 {
@@ -30,11 +29,8 @@ class Beeper
     Beeper(int pin);
     // Beep for DUR seconds long
     void beep(unsigned long freq, float dur);
-    // Beep indefinitely
-    void beep_forever(unsigned long freq);
-    double get_delay(unsigned long freq);
   private:
-    Servo pwm;
+    double get_delay(unsigned long freq);
     int _pin;
 };
 
